@@ -26,7 +26,7 @@ void App::input() {
 
 void App::begin() {
 
-	for (int i = 0; i < console_width; i++) {
+	for (int i = 0; i < console_height; i++) {
 		free_places.push_back(i);
 	}
 
@@ -58,9 +58,9 @@ void App::createLines() {
 		if (getTimeMS() >= creation_lines[i] && existing_lines < one_line.frequency && free_places.size() != 0)
 		{
 			delete_number = rand() % free_places.size();
-			one_line.symbol.coord_x = free_places[delete_number];
+			one_line.symbol.coord_y = free_places[delete_number];
 			free_places.erase(free_places.begin() + delete_number);
-			one_line.symbol.coord_y = -1;
+			one_line.symbol.coord_x = -1;
 			one_line.draw_time = getTimeMS() + one_line.interval;
 			lines.push_back(one_line);
 			existing_lines++;
@@ -74,12 +74,12 @@ void App::drawDeleteLines() {
 	for (int j = 0; j < lines.size(); j++)
 	{
 		if (getTimeMS() >= lines[j].draw_time) {
-			lines[j].run(console_height);
+			lines[j].run(console_width);
 
-			if (lines[j].symbol.coord_y == lines[j].lenght)
-				free_places.push_back(lines[j].symbol.coord_x);
+			if (lines[j].symbol.coord_x == lines[j].lenght)
+				free_places.push_back(lines[j].symbol.coord_y);
 
-			if (lines[j].symbol.coord_y - lines[j].lenght >= console_height)
+			if (lines[j].symbol.coord_x - lines[j].lenght >= console_width)
 			{
 				lines.erase(lines.begin());
 			}
@@ -137,7 +137,7 @@ int App::getConsoleWidth() {
 
 int App::getConsoleHeight() {
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	return csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+	return csbi.srWindow.Bottom - csbi.srWindow.Top;
 }
 
 unsigned long long App::getTimeSec() {
