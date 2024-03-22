@@ -54,7 +54,7 @@ void App::spawnLines() {
 
 void App::createLines() {
 
-	for (int i = 0; i < creation_lines.size(); i++) {
+	for (int i = creation_lines.size() - 1; i >= 0; i--) {
 		if (getTimeMS() >= creation_lines[i] && existing_lines < one_line.frequency && free_places.size() != 0)
 		{
 			delete_number = rand() % free_places.size();
