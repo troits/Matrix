@@ -13,28 +13,28 @@ int Explosion::getType()
 	return 1;
 }
 
-void Explosion::run(int console_height)
+void Explosion::run(int console_width)
 {
 	for (int i = 0, j = current_raduis - 1; i <= current_raduis - 1; i++, j--){
 		
-		if (symbol.coord_y + i < console_height) {
+		if (symbol.coord_x + i < console_width) {
 			
-			symbol.gotoXY(symbol.coord_x + j, symbol.coord_y + i);
+			symbol.gotoXY(symbol.coord_x + i, symbol.coord_y + j);
 			cout << " ";
 
-			symbol.gotoXY(symbol.coord_x - j, symbol.coord_y + i);
+			symbol.gotoXY(symbol.coord_x - i, symbol.coord_y + j);
 			cout << " ";
 		}
 	}
 
 	for (int i = 1, j = current_raduis - 2; i <= current_raduis; i++, j--){
 		
-		if (symbol.coord_y - i < console_height) {
+		if (symbol.coord_x - i < console_width) {
 			
-			symbol.gotoXY(symbol.coord_x + j, symbol.coord_y - i);
+			symbol.gotoXY(symbol.coord_x + i, symbol.coord_y - j);
 			cout << " ";
 
-			symbol.gotoXY(symbol.coord_x - j, symbol.coord_y - i);
+			symbol.gotoXY(symbol.coord_x - i, symbol.coord_y - j);
 			cout << " ";
 		}
 	}
@@ -42,12 +42,12 @@ void Explosion::run(int console_height)
 	if (current_raduis <= radius) {
 		for (int i = 0, j = current_raduis; i <= current_raduis; i++, j--){
 			
-			if (symbol.coord_y + i < console_height) {
-				symbol.gotoXY(symbol.coord_x + j, symbol.coord_y + i);
+			if (symbol.coord_x + i < console_width) {
+				symbol.gotoXY(symbol.coord_x + i, symbol.coord_y + j);
 				symbol.setColor(rand() % 15+1, 0);
 				cout << (char)((rand() % 63) + 33);
 
-				symbol.gotoXY(symbol.coord_x - j, symbol.coord_y + i);
+				symbol.gotoXY(symbol.coord_x - i, symbol.coord_y + j);
 				symbol.setColor(rand() % 15+1, 0);
 				cout << (char)((rand() % 63) + 33);
 			}
@@ -55,12 +55,12 @@ void Explosion::run(int console_height)
 
 		for (int i = 1, j = current_raduis - 1; i <= current_raduis; i++, j--){
 			
-			if (symbol.coord_y - i > -1 && symbol.coord_y - i < console_height) {
-				symbol.gotoXY(symbol.coord_x + j, symbol.coord_y - i);
+			if (symbol.coord_x - i > -1 && symbol.coord_x - i < console_width) {
+				symbol.gotoXY(symbol.coord_x + i, symbol.coord_y - j);
 				symbol.setColor(rand() % 15+1, 0);
 				cout << (char)((rand() % 63) + 33);
 
-				symbol.gotoXY(symbol.coord_x - j, symbol.coord_y - i);
+				symbol.gotoXY(symbol.coord_x - i, symbol.coord_y - j);
 				symbol.setColor(rand() % 15+1, 0);
 				cout << (char)((rand() % 63) + 33);
 			}

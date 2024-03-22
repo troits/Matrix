@@ -21,7 +21,7 @@ public:
 	LinkedList<Symbol>symbols_in_line;
 	
 	int  getType();
-	void run(int console_height);
+	void run(int console_width);
 	void startRun();
 	void endRun();
 	void middleRun();

@@ -37,7 +37,7 @@ public:
 	void pop_back();
 	int begin();
 	
-	T& operator[](const int index); //перегрузка скобок чтобы он возвращал элемент по индексу
+	T& operator[](const int index); 
 
 };
 
@@ -76,7 +76,7 @@ void LinkedList<T>::push_back(T data)
 	}
 	else
 	{
-		Node<T>* current = this->head; //пройти по листу, и вставать элемент
+		Node<T>* current = this->head;
 		while (current->pointer_next != nullptr)
 		{
 			current = current->pointer_next;

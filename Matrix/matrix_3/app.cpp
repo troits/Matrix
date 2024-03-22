@@ -15,14 +15,14 @@ CONSOLE_SCREEN_BUFFER_INFO csbi;
 
 void App::input() {
 
-	parametr_for_line.frequency = getRightNumber("Введите частоту (1-30): ", "line");
-	parametr_for_line.speed = getRightNumber("Введите скорость (1-30): ", "line");
-	parametr_for_line.lenght = getRightNumber("Введите длину (1-30): ", "line");
-	parametr_for_line.epilepsy_flag = getRightText("Эпилепсия (yes/no): ");
+	parametr_for_line.frequency = getRightNumber("Enter frequency (1-30): ", "line");
+	parametr_for_line.speed = getRightNumber("Enter speed (1-30): ", "line");
+	parametr_for_line.lenght = getRightNumber("Enter length (1-30): ", "line");
+	parametr_for_line.epilepsy_flag = getRightText("Epilepsy (yes/no): ");
 
 	system("cls");
 
-	input_chance = getRightNumber("Введите шанс взрыва (1-1000): ", "chance");
+	input_chance = getRightNumber("Enter explosion chance (1-1000): ", "chance");
 	input_radius();
 
 	system("cls");
@@ -35,9 +35,9 @@ void App::input() {
 
 void App::input_radius() {
 
-	input_min_radius = getRightNumber("Введите минимальный радиус взрыва (1-10): ", "radius");
+	input_min_radius = getRightNumber("Enter minimal radius of explosion (1-10): ", "radius");
 
-	text_input_max_radius = "Введите максимальный радиус взрыва (";
+	text_input_max_radius = "Enter maximal radius of explosion (";
 	text_input_max_radius += to_string(input_min_radius);
 	text_input_max_radius += "-10): ";
 
@@ -47,7 +47,7 @@ void App::input_radius() {
 
 		if (input_min_radius > input_max_radius) {
 			
-			cout << "!!! Минимальный радиус должен быть меньше максимального, повторите ввод \n\n";
+			cout << "!!! Minimal radius must be less than maximal. Please reenter. \n\n";
 			continue;
 		}
 		break;
@@ -57,7 +57,7 @@ void App::input_radius() {
 
 void App::begin() {
 
-	for (int i = 0; i < console_width; i++) {
+	for (int i = 0; i < console_height; i++) {
 		
 		free_places.push_back(i);
 	}
@@ -93,9 +93,9 @@ void App::createLines() {
 
 			one_line = new Line();
 			delete_number = rand() % free_places.size();
-			one_line->symbol.coord_x = free_places[delete_number];
+			one_line->symbol.coord_y = free_places[delete_number];
 			free_places.erase(free_places.begin() + delete_number);
-			one_line->symbol.coord_y = -1;
+			one_line->symbol.coord_x = -1;
 			one_line->interval = parametr_for_line.interval;
 			one_line->draw_time = timeNowMS() + one_line->interval; 
 			one_line->lenght = parametr_for_line.lenght;
@@ -114,7 +114,7 @@ void App::drawDeleteLines() {
 		if (timeNowMS() >= lines_and_explosions[k]->time)
 		{
 
-			lines_and_explosions[k]->run(console_height);
+			lines_and_explosions[k]->run(console_width);
 
 			if (!lines_and_explosions[k]->getType())
 			{
@@ -128,10 +128,10 @@ void App::drawDeleteLines() {
 					lines_and_explosions.push_back(explosion);
 					((Line*)lines_and_explosions[k])->trim();
 				}
-				if (((Line*)lines_and_explosions[k])->symbol.coord_y == ((Line*)lines_and_explosions[k])->lenght)
-					free_places.push_back(((Line*)lines_and_explosions[k])->symbol.coord_x);
+				if (((Line*)lines_and_explosions[k])->symbol.coord_x == ((Line*)lines_and_explosions[k])->lenght)
+					free_places.push_back(((Line*)lines_and_explosions[k])->symbol.coord_y);
 
-				if (((Line*)lines_and_explosions[k])->symbol.coord_y - ((Line*)lines_and_explosions[k])->lenght >= console_height - 1)
+				if (((Line*)lines_and_explosions[k])->symbol.coord_x - ((Line*)lines_and_explosions[k])->lenght >= console_width - 1)
 					lines_and_explosions.erase(lines_and_explosions.begin() + k);
 			}
 			else
@@ -150,7 +150,7 @@ int App::getConsoleWidth() {
 
 int App::getConsoleHeight() {
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	return csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+	return csbi.srWindow.Bottom - csbi.srWindow.Top;
 }
 
 bool App::isGoodInput(string str, string type) {
@@ -183,7 +183,7 @@ int App::getRightNumber(string request, string type) {
 		cin >> str;
 		cout << '\n';
 		if (!isGoodInput(str, type)) {
-			std::cout << "!!! Неверное значение, повторите ввод \n" << endl;
+			std::cout << "!!! Invalid value. Please reenter. \n" << endl;
 			continue;
 			}
 		number = stoi(str.c_str());
@@ -201,7 +201,7 @@ bool App::getRightText(string request) {
 		if (str == "yes") return true;
 		else if (str == "no") return false;
 		else {
-			cout << "!!! Неверное значение, повторите ввод \n" << endl;
+			cout << "!!! Invalid value. Please reenter. \n" << endl;
 			continue;
 		}
 		break;

@@ -13,14 +13,14 @@ int Line::getType()
 	return 0;
 }
 
-void Line::run(int console_height)
+void Line::run(int console_width)
 {
 
-	if (symbols_in_line.size() < lenght && symbol.coord_y < lenght - 1) {
+	if (symbols_in_line.size() < lenght && symbol.coord_x < lenght - 1) {
 
 		startRun();
 	}
-	else if (symbol.coord_y >= console_height - 1 && !symbols_in_line.empty()) {
+	else if (symbol.coord_x >= console_width - 1 && !symbols_in_line.empty()) {
 		endRun();
 	}
 	else if (!symbols_in_line.empty()) {
@@ -53,13 +53,13 @@ void Line::startRun()
 		symbol.color = 10;
 	}
 		
-	symbol.coord_y++;
+	symbol.coord_x++;
 	symbols_in_line.insert(symbols_in_line.begin(), symbol);
 }
 
 void Line::endRun()
 {
-	symbol.gotoXY(symbol.coord_x, symbols_in_line[symbols_in_line.size() - 1].coord_y);
+	symbol.gotoXY(symbols_in_line[symbols_in_line.size() - 1].coord_x, symbol.coord_y);
 	cout << " ";
 	symbols_in_line.pop_back();
 }
@@ -74,10 +74,10 @@ void Line::middleRun()
 
 		symbol.color = 10;
 	}
-	symbol.gotoXY(symbol.coord_x, symbols_in_line[symbols_in_line.size() - 1].coord_y);
+	symbol.gotoXY(symbols_in_line[symbols_in_line.size() - 1].coord_x, symbol.coord_y);
 	cout << " ";
 	symbols_in_line.pop_back();
-	symbol.coord_y++;
+	symbol.coord_x++;
 	symbols_in_line.insert(symbols_in_line.begin(), symbol);
 }
 void Line::trim()
@@ -87,6 +87,6 @@ void Line::trim()
 		cout << " ";
 		lenght--;
 		symbols_in_line.erase(symbols_in_line.begin());
-		symbol.coord_y--;
+		symbol.coord_x--;
 	}
 }

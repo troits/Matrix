@@ -12,7 +12,7 @@ public:
 	Symbol symbol;
 
 	int  getType();
-	void run(int console_height);
+	void run(int console_with);
 
 };
 
